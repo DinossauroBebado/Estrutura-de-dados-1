@@ -54,3 +54,5 @@ dkms.conf
 #media
 
 *.pdf
+
+*.save
