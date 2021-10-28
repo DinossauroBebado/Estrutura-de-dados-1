@@ -75,17 +75,21 @@ int lista_max_itr(Lista *lista)
 /*Você pode usar outras funções aqui se achar necessário!*/
 int lista_max_rec(Lista *lista)
 {
-   static int max = INT_MIN;
 
-   if (lista != NULL)
+   if (lista == NULL)
    {
-      if (lista->info > max)
-         max = lista->info;
-      conta_nos_rec(lista->next);
+      return INT_MIN;
    }
    else
    {
-      return max;
+      if (lista->info > lista_max_rec(lista->next))
+      {
+         return lista->info;
+      }
+      else
+      {
+         return lista_max_rec(lista->next);
+      }
    }
 }
 
