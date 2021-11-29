@@ -2,65 +2,68 @@
 #include <stdlib.h>
 #include <time.h>
 
-void BubbleSort(int *vetor, int tamanho)
+void BubbleSort(int *vetor, int num)
 {
-  int k, j, aux;
-
-  for (k = 1; k < tamanho; k++)
+  int i, j, temp;
+  i = num;
+  if (i > 0)
   {
-
-    for (j = 0; j < tamanho - 1; j++)
+    for (j = 0; j < num - 1; j++)
     {
-
       if (vetor[j] > vetor[j + 1])
       {
-        aux = vetor[j];
+        temp = vetor[j];
         vetor[j] = vetor[j + 1];
-        vetor[j + 1] = aux;
+        vetor[j + 1] = temp;
       }
     }
+    BubbleSort(vetor, num - 1);
   }
-}
-
-void SelectionSort(int *vetor, int tamanho)
-{
-  int i, j, min, aux;
-
-  for (i = 0; i < (tamanho - 1); i++)
+  else
   {
-    min = i;
-    for (j = i + 1; j < tamanho; j++)
-    {
-      if (vetor[j] < vetor[min])
-      {
-        min = j;
-      }
-    }
-    if (i != min)
-    {
-      aux = vetor[i];
-      vetor[i] = vetor[min];
-      vetor[min] = aux;
-    }
+    return;
   }
 }
+
+void SelectionSort(int *vetor, int i, int tamanho)
+{
+  int min, j, temp;
+  min = i;
+  for (j = i + 1; j < tamanho; j++)
+  {
+    if (vetor[j] < vetor[min])
+    {
+      min = j;
+    }
+  }
+
+  temp = vetor[i];
+  vetor[i] = vetor[min];
+  vetor[min] = temp;
+
+  if (i + 1 < tamanho)
+  {
+    SelectionSort(vetor, i + 1, tamanho);
+  }
+}
+
 void InsertionSort(int *vetor, int tamanho)
 {
-  int k, j, aux;
 
-  for (k = 1; k <= tamanho - 1; k++)
+  if (tamanho <= 1)
+    return;
+
+  InsertionSort(vetor, tamanho - 1);
+
+  int last = vetor[tamanho - 1];
+  int j = tamanho - 2;
+
+  while (j >= 0 && vetor[j] > last)
   {
-    aux = vetor[k];
-    j = k - 1;
-    while (j >= 0 && aux < vetor[j])
-    {
-
-      vetor[j + 1] = vetor[j];
-      j--;
-    }
-
-    vetor[j + 1] = aux;
+    vetor[j + 1] = vetor[j];
+    j--;
   }
+  vetor[j + 1] = last;
 }
 
 void Imprimir(int *A, int tamanho)
@@ -123,7 +126,7 @@ int main()
 
   start = clock();
   Imprimir(v2, tamanho);
-  SelectionSort(v2, tamanho);
+  SelectionSort(v2, 0, tamanho);
   Imprimir(v2, tamanho);
   end = clock();
   elapsed_time = (end - start) / (double)CLOCKS_PER_SEC;
